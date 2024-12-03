@@ -1,25 +1,18 @@
-package com.manish.detectcarspeed;
-
-import static android.content.Context.LOCATION_SERVICE;
+package com.manish.detectcarspeed.service;
 
 import android.annotation.SuppressLint;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.IBinder;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
-import androidx.lifecycle.Lifecycle;
-import androidx.lifecycle.LifecycleService;
-import androidx.lifecycle.ViewModelProvider;
 
+import com.manish.detectcarspeed.DetectCarSpeedApplication;
 import com.manish.detectcarspeed.Utils.Constants;
 import com.manish.detectcarspeed.notification.NotificationBuilder;
 import com.manish.detectcarspeed.preferences.DetectCarSpeedPreference;

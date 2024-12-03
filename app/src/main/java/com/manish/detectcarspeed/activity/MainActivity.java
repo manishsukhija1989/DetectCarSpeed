@@ -1,6 +1,5 @@
 package com.manish.detectcarspeed.activity;
 
-import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -9,11 +8,9 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.viewmodel.internal.ViewModelProviders;
 
-import com.manish.detectcarspeed.DetectCarSpeedService;
+import com.manish.detectcarspeed.service.DetectCarSpeedService;
 import com.manish.detectcarspeed.R;
 import com.manish.detectcarspeed.preferences.DetectCarSpeedPreference;
 import com.manish.detectcarspeed.viewmodel.DetectCarSpeedViewModel;

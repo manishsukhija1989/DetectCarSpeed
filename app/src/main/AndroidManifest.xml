@@ -20,7 +20,7 @@
         android:theme="@style/Theme.DetectCarSpeed"
         tools:targetApi="31">
         <service
-            android:name=".DetectCarSpeedService"
+            android:name=".service.DetectCarSpeedService"
             android:enabled="true"
             android:exported="true" />
 
