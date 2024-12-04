@@ -39,4 +39,12 @@ public class DetectCarSpeedPreference {
         mSharedPreference.edit().putBoolean(Constants.FIREBASE_ACTIVE, isFirebaseActive).apply();
     }
 
+    public String getCarNumber() {
+        return mSharedPreference.getString(Constants.CAR_NUMBER, "Guest");
+    }
+
+    public void setCarNumber(String carNumber) {
+        mSharedPreference.edit().putString(Constants.CAR_NUMBER, carNumber).apply();
+    }
+
 }

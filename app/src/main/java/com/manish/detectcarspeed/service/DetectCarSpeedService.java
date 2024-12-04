@@ -5,12 +5,16 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.IBinder;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.manish.detectcarspeed.DetectCarSpeedApplication;
 import com.manish.detectcarspeed.Utils.Constants;
@@ -53,11 +57,16 @@ public class DetectCarSpeedService extends Service {
         }
         mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, Constants.LOCATION_TIME,
                 Constants.LOCATION_DISTANCE,
-                location -> {
-                    float speed = location.getSpeed();
-                    mDetectCarSpeedPreference.setMaxSpeed((int) speed);
-                });
+                mLocationListener);
     }
+
+    private final LocationListener mLocationListener = location -> {
+        float speed = location.getSpeed();
+        mDetectCarSpeedPreference.setMaxSpeed((int) speed);
+        Intent intent = new Intent(Constants.SPEED_BROADCAST);
+        intent.putExtra(Constants.CAR_CURRENT_SPEED, (int) speed);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+    };
 
     @SuppressLint("ForegroundServiceType")
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -75,5 +84,6 @@ public class DetectCarSpeedService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        mLocationManager.removeUpdates(mLocationListener);
     }
 }
