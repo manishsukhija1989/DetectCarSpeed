@@ -15,31 +15,41 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.manish.detectcarspeed.R;
-import com.manish.detectcarspeed.Utils.Constants;
+import com.manish.detectcarspeed.utils.Constants;
+import com.manish.detectcarspeed.notification.NotificationManager;
+import com.manish.detectcarspeed.utils.NotificationType;
 import com.manish.detectcarspeed.preferences.DetectCarSpeedPreference;
 import com.manish.detectcarspeed.service.DetectCarSpeedService;
 import com.manish.detectcarspeed.viewmodel.DetectCarSpeedViewModel;
 
 public class MainActivity extends AppCompatActivity {
 
+    private final String TAG = MainActivity.class.getCanonicalName();
+
     //Object to get value from Shared preference
     private DetectCarSpeedPreference mDetectCarSpeedPreference;
-    //Viewmodel updates for the carspeed
+    //Viewmodel updates for the car speed
     private DetectCarSpeedViewModel mDetectCarSpeedViewModel;
-
+    //variable for notification type enum
+    private NotificationType notificationType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //Check permissions for location is enabled
-        if (ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 101);
-            return;
-        }
+        // initialize view model to detect car speed
         mDetectCarSpeedViewModel = new ViewModelProvider(this).get(DetectCarSpeedViewModel.class);
+        // initialize shared preference to store dynamic values
         mDetectCarSpeedPreference = DetectCarSpeedPreference.getInstance(this);
-        //register local broadcast to receive speed updates from service
+
+        //After login set car number and maximum allowed speed in shared preferences
+        mDetectCarSpeedPreference.setCarNumber(Constants.CAR_NUMBER);
+        mDetectCarSpeedPreference.setMaxSpeedAllocated(Constants.MAX_ALLOCATED_SPEED);
+        // set notification type based on available client
+        notificationType = NotificationType.FIREBASE;
+        NotificationManager.getInstance().initiateNotification(notificationType);
+
+        //register local broadcast to receive speed updates from service on change of car propertied
         LocalBroadcastManager.getInstance(this)
                 .registerReceiver(mSpeedReceiver, new IntentFilter(Constants.SPEED_BROADCAST));
         Intent intent = new Intent(this, DetectCarSpeedService.class);
@@ -53,6 +63,9 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * mSpeedReceiver broadcast receiver to get updated from service for the change car speed
+     */
     private BroadcastReceiver mSpeedReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {

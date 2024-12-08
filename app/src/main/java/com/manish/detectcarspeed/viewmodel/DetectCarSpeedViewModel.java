@@ -6,10 +6,8 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.manish.detectcarspeed.DetectCarSpeedApplication;
-import com.manish.detectcarspeed.Utils.Constants;
-import com.manish.detectcarspeed.notification.AWSNotification;
-import com.manish.detectcarspeed.notification.FirebaseNotification;
-import com.manish.detectcarspeed.notification.RouteNotificationHelper;
+import com.manish.detectcarspeed.utils.Constants;
+import com.manish.detectcarspeed.notification.NotificationManager;
 import com.manish.detectcarspeed.preferences.DetectCarSpeedPreference;
 
 public class DetectCarSpeedViewModel extends ViewModel {
@@ -33,20 +31,16 @@ public class DetectCarSpeedViewModel extends ViewModel {
         }
         String carNumber = mDetectCarSpeedPreference.getCarNumber();
         //notify company for rash driving
-        RouteNotificationHelper routeNotificationHelper;
-        if (mDetectCarSpeedPreference.isFirebaseActive()) {
-            //trigger Notification via Firebase
-            routeNotificationHelper = new FirebaseNotification();
-        } else {
-            routeNotificationHelper = new AWSNotification();
-        }
-        routeNotificationHelper.sendNotification("Car speed exceed",
+        NotificationManager.getInstance().sendNotification("Car speed exceed",
                 carNumber + " is exceeding his speed");
+        //notify notification to driver
+        NotificationManager.getInstance().sendInAppNotification("Car speed exceed",
+                "Your car speed is exceeding. Please drive slow!!");
     }
 
     // method to set allocated speed of the car
     public int getMaxSpeedAllocated() {
-        return mDetectCarSpeedPreference.getMaxSpeed();
+        return mDetectCarSpeedPreference.getMaxSpeedAllocated();
     }
 
     //method to set car current speed

@@ -9,8 +9,11 @@ import android.os.Build;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 
-import com.manish.detectcarspeed.Utils.Constants;
+import com.manish.detectcarspeed.utils.Constants;
 
+/**
+ * Class to build foreground notification
+ */
 public class NotificationBuilder {
 
     private static NotificationBuilder sNotificationBuilder;
@@ -41,5 +44,4 @@ public class NotificationBuilder {
                 .setContentTitle("Detect car speed").setContentText("Car speed detection ongoing")
                 .build();
     }
-
 }

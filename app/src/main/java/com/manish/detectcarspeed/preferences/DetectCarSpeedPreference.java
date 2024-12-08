@@ -3,7 +3,7 @@ package com.manish.detectcarspeed.preferences;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.manish.detectcarspeed.Utils.Constants;
+import com.manish.detectcarspeed.utils.Constants;
 
 public class DetectCarSpeedPreference {
 
@@ -21,30 +21,50 @@ public class DetectCarSpeedPreference {
         return mDetectCarSpeedPreference;
     }
 
+    /**
+     * method to set max allocated speed of the car
+     *
+     * @param maxSpeedAllocated - int variable
+     */
+    public void setMaxSpeedAllocated(int maxSpeedAllocated) {
+        //Allocate max speed to vehicle
+        mSharedPreference.edit().putInt(Constants.CAR_MAX_SPEED_ALLOCATED, maxSpeedAllocated).apply();
+    }
+
+    /**
+     * method to get max allocated speed of the car
+     *
+     * @return max allocated speed, if no speed allocated, then will return default speed
+     */
+    public int getMaxSpeedAllocated() {
+        return mSharedPreference.getInt(Constants.CAR_MAX_SPEED_ALLOCATED, Constants.DEFAULT_SPEED);
+    }
+
+    /**
+     * method to set max allocated speed of the car
+     *
+     * @param maxSpeedAllocated - int variable
+     */
     public void setMaxSpeed(int maxSpeedAllocated) {
         //Allocate max speed to vehicle
-        mSharedPreference.edit()
-                .putInt(Constants.CAR_MAX_SPEED, maxSpeedAllocated).apply();
+        mSharedPreference.edit().putInt(Constants.CAR_MAX_SPEED_ALLOCATED, maxSpeedAllocated).apply();
     }
 
-    public int getMaxSpeed() {
-        return mSharedPreference.getInt(Constants.CAR_MAX_SPEED, Constants.DEFAULT_SPEED);
-    }
-
-    public boolean isFirebaseActive() {
-        return mSharedPreference.getBoolean(Constants.FIREBASE_ACTIVE, true);
-    }
-
-    public void setFirebaseService(boolean isFirebaseActive) {
-        mSharedPreference.edit().putBoolean(Constants.FIREBASE_ACTIVE, isFirebaseActive).apply();
-    }
-
+    /**
+     * method to get speed of the car
+     *
+     * @return -- String constant
+     */
     public String getCarNumber() {
         return mSharedPreference.getString(Constants.CAR_NUMBER, "Guest");
     }
 
+    /**
+     * method to set car number to detect speed of the car
+     *
+     * @param carNumber -- String variable
+     */
     public void setCarNumber(String carNumber) {
         mSharedPreference.edit().putString(Constants.CAR_NUMBER, carNumber).apply();
     }
-
 }
