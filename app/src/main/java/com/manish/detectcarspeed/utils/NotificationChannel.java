@@ -1,5 +1,5 @@
 package com.manish.detectcarspeed.utils;
 
-public enum NotificationType {
+public enum NotificationChannel {
     AWS, FIREBASE
 }

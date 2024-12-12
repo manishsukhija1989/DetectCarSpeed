@@ -1,6 +1,7 @@
 # DetectCarSpeed
 Detects the Vehicle Speedlimit and notify
 
-Assumptions
-1. Max speed allowed and car number will be received after user gets logged in
-2. Based on the notification service client available, notifications would be sent via AWS or Firebase
+Assumptions - After login, when drive starts API would be exposed to fetch the below details:
+1. Get max allowed speed for the vehicle
+2. Car Details
+3. Available Notification channel (AWS/FIREBASE)

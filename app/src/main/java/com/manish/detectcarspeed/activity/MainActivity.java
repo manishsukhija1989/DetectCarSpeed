@@ -4,20 +4,17 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.manish.detectcarspeed.R;
 import com.manish.detectcarspeed.utils.Constants;
 import com.manish.detectcarspeed.notification.NotificationManager;
-import com.manish.detectcarspeed.utils.NotificationType;
+import com.manish.detectcarspeed.utils.NotificationChannel;
 import com.manish.detectcarspeed.preferences.DetectCarSpeedPreference;
 import com.manish.detectcarspeed.service.DetectCarSpeedService;
 import com.manish.detectcarspeed.viewmodel.DetectCarSpeedViewModel;
@@ -31,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
     //Viewmodel updates for the car speed
     private DetectCarSpeedViewModel mDetectCarSpeedViewModel;
     //variable for notification type enum
-    private NotificationType notificationType;
+    private NotificationChannel notificationChannel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,12 +39,13 @@ public class MainActivity extends AppCompatActivity {
         // initialize shared preference to store dynamic values
         mDetectCarSpeedPreference = DetectCarSpeedPreference.getInstance(this);
 
-        //After login set car number and maximum allowed speed in shared preferences
+        //Car number would be fetched from API - Assuming car number - (xx-yy-zz)
         mDetectCarSpeedPreference.setCarNumber(Constants.CAR_NUMBER);
+        //Max allocated speed fetched from API, Assuming max speed - 90 km/h
         mDetectCarSpeedPreference.setMaxSpeedAllocated(Constants.MAX_ALLOCATED_SPEED);
-        // set notification type based on available client
-        notificationType = NotificationType.FIREBASE;
-        NotificationManager.getInstance().initiateNotification(notificationType);
+        // Notification channel fetched from API - Assuming FIREBASE
+        notificationChannel = NotificationChannel.FIREBASE;
+        NotificationManager.getInstance().initiateNotification(notificationChannel);
 
         //register local broadcast to receive speed updates from service on change of car propertied
         LocalBroadcastManager.getInstance(this)

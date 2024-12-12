@@ -2,11 +2,11 @@ package com.manish.detectcarspeed.notification;
 
 import android.util.Log;
 
-import com.manish.detectcarspeed.utils.NotificationType;
+import com.manish.detectcarspeed.utils.NotificationChannel;
 
 public class NotificationManager {
     private final String TAG = NotificationManager.class.getCanonicalName();
-    private RouteNotificationHelper routeNotificationHelper;
+    private IRouteNotificationHelper iRouteNotificationHelper;
     private static NotificationManager sNotificationManager;
 
     private NotificationManager() {
@@ -23,16 +23,16 @@ public class NotificationManager {
     /**
      * method to initiate notification client based on client available
      *
-     * @param notificationType - Enum (AWS or FIREBASE)
+     * @param notificationChannel - Enum (AWS or FIREBASE)
      */
-    public void initiateNotification(NotificationType notificationType) {
-        Log.d(TAG, "Notification Client: " + notificationType);
-        switch (notificationType) {
+    public void initiateNotification(NotificationChannel notificationChannel) {
+        Log.d(TAG, "Notification Client: " + notificationChannel);
+        switch (notificationChannel) {
             case AWS:
-                routeNotificationHelper = new AWSNotification();
+                iRouteNotificationHelper = new AWSNotification();
                 break;
             case FIREBASE:
-                routeNotificationHelper = new FirebaseNotification();
+                iRouteNotificationHelper = new FirebaseNotification();
                 break;
             default:
                 Log.d(TAG, "No notification client available");
@@ -46,7 +46,7 @@ public class NotificationManager {
      * @param message -- String message variable
      */
     public void sendNotification(String title, String message) {
-        routeNotificationHelper.sendNotification(title, message);
+        iRouteNotificationHelper.sendNotification(title, message);
     }
 
     /**
